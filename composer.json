@@ -1,37 +1,30 @@
 {
-	"name": "lotusjeff/sitemap",
+	"name": "welshpaul/sitemap",
 	"type": "phpbb-extension",
 	"description": "SEO Sitemap creates the XML sitemap index and listings",
-	"homepage": "https://github.com/LotusJeff/sitemap",
-	"version": "0.2.0",
+	"homepage": "https://github.com/CrazyC0d3r/sitemap",
+	"version": "1.0.0",
 	"keywords": ["phpbb", "extension", "seo", "sitemap"],
 	"license": "GPL-2.0",
 	"authors": [
 		{
-			"name": "Jeff Cocking (LotusJeff)",
-			"email": "jeff.cocking@gmail.com",
-			"homepage": "http://www.cocking.com",
+			"name": "Paul Norman (WelshPaul)",
+			"homepage": "http://phpbb.pro",
 			"role": "Developer"
+		},
+		{
+			"name": "Jeff Cocking (LotusJeff)",
+			"role": "Original Developer"
 		}
 	],
 	"require": {
-		"php": ">=5.3.3",
+		"php": ">=5.4",
 		"composer/installers": "~1.0"
-	},
-	"require-dev": {
-		"phpbb/epv": "dev-master",
-		"squizlabs/php_codesniffer": "2.*"
 	},
 	"extra": {
 		"display-name": "SEO Sitemap",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC2,<3.2@dev"
-		},
-		"version-check": {
-			"host": "www.cocking.com",
-			"directory": "/phpbb-ext/sitemap",
-			"filename": "version-check.html",
-			"ssl": "true"
+			"phpbb/phpbb": ">=3.2.0,<3.3@dev"
 		}
 	}
 }
