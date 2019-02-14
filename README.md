@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/CrazyC0d3r/sitemap.svg?branch=1.0.0)](https://travis-ci.org/CrazyC0d3r/sitemap.svg?branch=1.0.0)
+[![Build Status](https://travis-ci.org/CrazyC0d3r/sitemap.svg?branch=master)](https://travis-ci.org/CrazyC0d3r/sitemap.svg?branch=master)
 
 # SEO Sitemap Extension for phpBB 3.2
 
