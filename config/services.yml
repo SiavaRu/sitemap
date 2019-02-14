@@ -1,21 +1,20 @@
 services:
-    lotusjeff.sitemap.sitemap:
-        class: lotusjeff\sitemap\controller\sitemap
+    welshpaul.sitemap.sitemap:
+        class: welshpaul\sitemap\controller\sitemap
         arguments:
-            - @auth
-            - @cache
-            - @config
-            - @dbal.conn
-            - @controller.helper
-            - @dispatcher
-            - %core.php_ext%
-            - @ext.manager
-    lotusjeff.sitemap.listener:
-        class: lotusjeff\sitemap\event\listener
+            - '@auth'
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@controller.helper'
+            - '@dispatcher'
+            - '%core.php_ext%'
+            - '@ext.manager'
+    welshpaul.sitemap.listener:
+        class: welshpaul\sitemap\event\listener
         arguments:
-            - @config
-            - @template
-            - @user
-            - @request
+            - '@config'
+            - '@template'
+            - '@controller.helper'
         tags:
             - { name: event.listener }
