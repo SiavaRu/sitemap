@@ -1,7 +1,5 @@
-{# Note: we must use the before code so the link will appear in the expected location #}
-<!-- IF S_LOTUSJEFF_SITEMAP_LINK -->
-        <li class="rightside">
-            <a href="{LOTUSJEFF_SITEMAP_URL}" role="menuitem"><i class="icon fa-sitemap fa-fw" aria-hidden="true"></i>
-                    <span>{L_LOTUSJEFF_DISPLAY_TITLE}</span></a>
-        </li>
-<!-- ENDIF -->
+{% if S_WELSHPAUL_SITEMAP_LINK %}
+<li class="small-icon icon-pages rightside">
+    <a href="{{ WELSHPAUL_SITEMAP_URL }}">{{ lang('WELSHPAUL_DISPLAY_TITLE') }}</a>
+</li>
+{% endif %}
