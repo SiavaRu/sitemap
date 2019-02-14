@@ -1,14 +1,20 @@
 <?php
 /**
 *
-* @package phpBB Extension - Sitemap
+* SEO Sitemap
 * @copyright (c) 2016 Jeff Cocking
+* @copyright (c) 2019 Paul Norman (WelshPaul)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
 */
 
-namespace lotusjeff\sitemap\controller;
+namespace welshpaul\sitemap\controller;
 
+use phpbb\auth\auth;
+use phpbb\cache\service;
+use phpbb\config\config;
+use phpbb\db\driver\driver_interface;
+use phpbb\controller\helper;
+use phpbb\event\dispatcher;
 use Symfony\Component\HttpFoundation\Response;
 
 class sitemap
@@ -42,15 +48,15 @@ class sitemap
 	/**
 	* Constructor
 	*
-	* @param \phpbb\auth\auth						$auth					Auth object
-	* @param \phpbb\cache\service		$cache
-	* @param \phpbb\config\config					$config					Config object
-	* @param \phpbb\db\driver\driver_interface		$db						Database object
-	* @param \phpbb\controller\helper				$helper					Helper object
-	* @param string									$php_ext				phpEx
+	* @param \phpbb\auth\auth						$auth						Auth object
+	* @param \phpbb\cache\service					$cache
+	* @param \phpbb\config\config					$config						Config object
+	* @param \phpbb\db\driver\driver_interface		$db							Database object
+	* @param \phpbb\controller\helper				$helper						Helper object
+	* @param string									$php_ext					phpEx
 	* @param \phpbb_extension_manager				$phpbb_extension_manager    phpbb_extension_manager
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\event\dispatcher_interface $phpbb_dispatcher, $php_ext, $phpbb_extension_manager)
+	public function __construct(auth $auth, service $cache, config $config, driver_interface $db, helper $helper, dispatcher $phpbb_dispatcher, $php_ext, $phpbb_extension_manager)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
@@ -76,7 +82,7 @@ class sitemap
 		 * Set sitemap for current topics < 30 days last modified
 		 */
 		$url_data[] = array(
-			'url'		=> $this->helper->route('lotusjeff_sitemap_current', array(), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
+			'url'		=> $this->helper->route('welshpaul_sitemap_current', array(), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
 			'time'		=> time(),
 		);
 
@@ -94,14 +100,14 @@ class sitemap
 		 */
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			if (($this->auth->acl_get('f_list', $row['forum_id'])) && (!in_array($row['forum_id'],unserialize($this->config['lotusjeff_sitemap_forum_exclude']))) && ($row['forum_topics_approved'] > $this->config['lotusjeff_sitemap_forum_threshold']))
+			if (($this->auth->acl_get('f_list', $row['forum_id'])) && (!in_array($row['forum_id'],unserialize($this->config['welshpaul_sitemap_forum_exclude']))) && ($row['forum_topics_approved'] > $this->config['welshpaul_sitemap_forum_threshold']))
 			{
 				$url_data[] = array(
-					'url'		=> $this->helper->route('lotusjeff_sitemap_forums', array('id' => $row['forum_id']), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
+					'url'		=> $this->helper->route('welshpaul_sitemap_forums', array('id' => $row['forum_id']), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
 					'time'		=> $row['forum_last_post_time'],
 				);
 				$url_data[] = array(
-					'url'		=> $this->helper->route('lotusjeff_sitemap_topics', array('id' => $row['forum_id']), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
+					'url'		=> $this->helper->route('welshpaul_sitemap_topics', array('id' => $row['forum_id']), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
 					'time'		=> $row['forum_last_post_time'],
 				);
 			}
@@ -109,22 +115,11 @@ class sitemap
 		$this->db->sql_freeresult($result);
 
 		/**
-		 * Set sitemap for additional pages if configured
-		 */
-		if ($this->config['lotusjeff_sitemap_additional'])
-		{
-			$url_data[] = array(
-				'url'		=> $this->helper->route('lotusjeff_sitemap_additional', array('id' => $row['forum_id']), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
-				'time'		=> time(),
-			);
-		}
-
-		/**
 		 * If there are no available data, we need to send an error message of no data configured.
 		 */
 		if (empty($url_data))
 		{
-			trigger_error('LOTUSJEFF_SITEMAP_NODATA');
+			trigger_error('WELSHPAUL_SITEMAP_NODATA');
 		}
 		return $this->output_sitemap($url_data, $type = 'sitemapindex');
 	}
@@ -161,7 +156,7 @@ class sitemap
 			/**
 			 * Check if the topic belongs to a forum that has been excluded
 			 */
-			if (in_array($topic_row['forum_id'] , unserialize($this->config['lotusjeff_sitemap_forum_exclude'])))
+			if (in_array($topic_row['forum_id'] , unserialize($this->config['welshpaul_sitemap_forum_exclude'])))
 			{
 				continue;
 			}
@@ -177,7 +172,7 @@ class sitemap
 			 * - an image mime type
 			 * - not an orphan
 			 */
-			if (($topic_row['topic_attachment']) && ($this->config['lotusjeff_sitemap_images']))
+			if (($topic_row['topic_attachment']) && ($this->config['welshpaul_sitemap_images']))
 			{
 
 				if ( $pages > 1 )
@@ -250,13 +245,13 @@ class sitemap
 			switch ($topic_row['topic_type'])
 			{
 				case POST_STICKY:
-					$topic_priority = $this->config['lotusjeff_sitemap_sticky_priority'];
+					$topic_priority = $this->config['welshpaul_sitemap_sticky_priority'];
 					break;
 				case POST_GLOBAL:
-					$topic_priority = $this->config['lotusjeff_sitemap_global_priority'];
+					$topic_priority = $this->config['welshpaul_sitemap_global_priority'];
 					break;
 				case POST_ANNOUNCE:
-					$topic_priority = $this->config['lotusjeff_sitemap_announce_priority'];
+					$topic_priority = $this->config['welshpaul_sitemap_announce_priority'];
 					break;
 				default:
 					$topic_priority = $this->get_prio($topic_row['topic_last_post_time'], $pages);
@@ -276,7 +271,7 @@ class sitemap
 					'time'	=> $topic_row['topic_last_post_time'],
 					'prio'	=> number_format($topic_priority,1),
 					'freq'	=> $topic_freq,
-					'image'	=> ($this->config['lotusjeff_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data) : '',
+					'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data) : '',
 				);
 
 				/**
@@ -293,7 +288,7 @@ class sitemap
 							'time'	=> $topic_row['topic_last_post_time'],
 							'prio'	=> number_format(($topic_priority*0.95),1),
 							'freq'	=> $topic_freq,
-							'image'	=> ($this->config['lotusjeff_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data, $pages, $i) : '',
+							'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data, $pages, $i) : '',
 						);
 					}
 				}
@@ -306,7 +301,7 @@ class sitemap
 		 */
 		if (empty($url_data))
 		{
-			trigger_error('LOTUSJEFF_SITEMAP_NODATA');
+			trigger_error('WELSHPAUL_SITEMAP_NODATA');
 		}
 
 		return $this->output_sitemap($url_data, $type = 'urlset');
@@ -326,7 +321,7 @@ class sitemap
 		/**
 		 * Check cache data
 		 */
-		$cache_file = "_lotusjeff_forum_".$id;
+		$cache_file = "_welshpaul_forum_".$id;
 		$config_time_cache = (int) (24 * 60 * 60);
 		if (($output = $this->cache->get($cache_file)) === false)
 		{
@@ -341,7 +336,7 @@ class sitemap
 			/**
 			 * Check if the forum has been excluded
 			 */
-			if (in_array($id,unserialize($this->config['lotusjeff_sitemap_forum_exclude'])))
+			if (in_array($id,unserialize($this->config['welshpaul_sitemap_forum_exclude'])))
 			{
 				trigger_error('SORRY_AUTH_READ');
 			}
@@ -358,9 +353,9 @@ class sitemap
 			/**
 			 * Check if the forum meets forum threshold
 			 */
-			if ($row['forum_topics_approved'] < $this->config['lotusjeff_sitemap_forum_threshold'])
+			if ($row['forum_topics_approved'] < $this->config['welshpaul_sitemap_forum_threshold'])
 			{
-				trigger_error('LOTUSJEFF_SITEMAP_NODATA');
+				trigger_error('WELSHPAUL_SITEMAP_NODATA');
 			}
 
 			/**
@@ -405,7 +400,7 @@ class sitemap
 			 */
 			if (empty($url_data))
 			{
-				trigger_error('LOTUSJEFF_SITEMAP_NODATA');
+				trigger_error('WELSHPAUL_SITEMAP_NODATA');
 			}
 
 			$output = $this->output_sitemap($url_data, $type = 'urlset');
@@ -430,7 +425,7 @@ class sitemap
 		/**
 		 * Check cache data
 		 */
-		$cache_file = "_lotusjeff_topics".$id;
+		$cache_file = "_welshpaul_topics".$id;
 		$config_time_cache = (int) (24 * 60 * 60);
 		if (($output = $this->cache->get($cache_file)) === false)
 		{
@@ -445,7 +440,7 @@ class sitemap
 			/**
 			 * Check if the forum has been excluded
 			 */
-			if (in_array($id,unserialize($this->config['lotusjeff_sitemap_forum_exclude'])))
+			if (in_array($id,unserialize($this->config['welshpaul_sitemap_forum_exclude'])))
 			{
 				trigger_error('SORRY_AUTH_READ');
 			}
@@ -472,7 +467,7 @@ class sitemap
 				 * - an image mime type
 				 * - not an orphan
 				 */
-				if (($topic_row['topic_attachment']) && ($this->config['lotusjeff_sitemap_images']))
+				if (($topic_row['topic_attachment']) && ($this->config['welshpaul_sitemap_images']))
 				{
 
 					if ( $pages > 1 )
@@ -545,13 +540,13 @@ class sitemap
 				switch ($topic_row['topic_type'])
 				{
 					case POST_STICKY:
-						$topic_priority = $this->config['lotusjeff_sitemap_sticky_priority'];
+						$topic_priority = $this->config['welshpaul_sitemap_sticky_priority'];
 						break;
 					case POST_GLOBAL:
-						$topic_priority = $this->config['lotusjeff_sitemap_global_priority'];
+						$topic_priority = $this->config['welshpaul_sitemap_global_priority'];
 						break;
 					case POST_ANNOUNCE:
-						$topic_priority = $this->config['lotusjeff_sitemap_announce_priority'];
+						$topic_priority = $this->config['welshpaul_sitemap_announce_priority'];
 						break;
 					default:
 						$topic_priority = $this->get_prio($topic_row['topic_last_post_time'], $pages);
@@ -571,7 +566,7 @@ class sitemap
 						'time'	=> $topic_row['topic_last_post_time'],
 						'prio'	=> number_format($topic_priority,1),
 						'freq'	=> $topic_freq,
-						'image'	=> ($this->config['lotusjeff_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data) : '',
+						'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data) : '',
 					);
 
 					/**
@@ -588,7 +583,7 @@ class sitemap
 								'time'	=> $topic_row['topic_last_post_time'],
 								'prio'	=> number_format(($topic_priority*0.95),1),
 								'freq'	=> $topic_freq,
-								'image'	=> ($this->config['lotusjeff_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data, $pages, $i) : '',
+								'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data, $pages, $i) : '',
 							);
 						}
 					}
@@ -601,7 +596,7 @@ class sitemap
 			 */
 			if (empty($url_data))
 			{
-				trigger_error('LOTUSJEFF_SITEMAP_NODATA');
+				trigger_error('WELSHPAUL_SITEMAP_NODATA');
 			}
 
 			$output = $this->output_sitemap($url_data, $type = 'urlset');
@@ -611,67 +606,6 @@ class sitemap
 		}
 
 		return $output;
-	}
-
-	/**
-	 * Creates Sitemap Index of all allowed forums
-	 *
-	 * @return object
-	 * @access public
-	 */
-	public function additional()
-	{
-
-		/**
-		 * Build extension hook
-		 *
-		 * @event lotusjeff.sitemap_additional_data
-		 * @param array 	additinal_url_data The array below is a sample data of the $url_data. Please mimic the format and delete the sample data.
-		 * @return Response
-		 * @since 0.2.0
-		 */
-		$add_data = array ( 0 => array('loc' => 'http://yourdomian.tld/board_location/viewtopic.php?f=39&amp;t=3245',  //full domain name including the hhtp values
-										'lastmod' => '1456454541', //unix timestamp of when page last updated.
-										'image' => array (0 => array ('attach_url' => 'https://yourdomain.tld/board_location/download/file.php?id=19&amp;mode=view',  //full domain name including the hhtp values
-																		'caption' => 'caption text',  //caption text associated with image
-																		),
-															1 => array ('attach_url' => 'https://yourdomain.tld/board_location/download/file.php?id=19&amp;mode=view',
-																		'caption' => 'caption text',
-																		),
-															),
-										),
-							1 => array('loc' => 'http://yourdomian.tld/board_location/viewtopic.php?f=39&amp;t=3245',
-										'lastmod' => '1456454541',
-										'image' => '',  //if no image pass a '' in the image field.
-										),
-							);
-		$vars = array(
-			'add_data',
-		);
-
-		extract($this->phpbb_dispatcher->trigger_event('lotusjeff.sitemap_additional_data', compact($vars)));
-
-		foreach ($add_data as $add_page)
-		{
-			$prio = $this->get_prio($add_page['lastmod'],1);
-
-			$url_data[] = array(
-				'url'	=> $add_page['loc'],
-				'time'	=> $add_page['lastmod'],
-				'prio'	=> number_format($this->get_prio($add_page['lastmod'],1),1),
-				'freq'	=> $this->get_freq($add_page['lastmod']),
-				'image'	=> ($this->config['lotusjeff_sitemap_images']) ? ((isset($add_page['image'])) ? $add_page['image'] : '') : '',
-				);
-		}
-
-		/**
-		 * If there are no available data, we need to send an error message of no data configured.
-		 */
-		if (empty($url_data))
-		{
-			trigger_error('LOTUSJEFF_SITEMAP_NODATA');
-		}
-		return $this->output_sitemap($url_data, $type = 'urlset');
 	}
 
 	/**
@@ -688,7 +622,7 @@ class sitemap
 		/**
 		 * Modify sitemap data before output
 		 *
-		 * @event lotusjeff.sitemap_modify_before_output
+		 * @event welshpaul.sitemap_modify_before_output
 		 * @var	string		type			Type of the sitemap (sitemapindex or urlset)
 		 * @var	array		url_data		URL informations
 		 * @since 0.1.4
@@ -697,9 +631,9 @@ class sitemap
 			'type',
 			'url_data',
 		);
-		extract($this->phpbb_dispatcher->trigger_event('lotusjeff.sitemap_modify_before_output', compact($vars)));
+		extract($this->phpbb_dispatcher->trigger_event('welshpaul.sitemap_modify_before_output', compact($vars)));
 
-		$style_xsl = $this->board_url . '/'. $this->phpbb_extension_manager->get_extension_path('lotusjeff/sitemap', false) . 'styles/all/template/style.xsl';
+		$style_xsl = $this->board_url . '/'. $this->phpbb_extension_manager->get_extension_path('welshpaul/sitemap', false) . 'styles/all/template/style.xsl';
 
 		/**
 		 * Create xml file for sitemap and sitemap index
@@ -731,7 +665,7 @@ class sitemap
 				/**
 				 * Add image data if turned on
 				 */
-				if (($this->config['lotusjeff_sitemap_images']) && (is_array($data['image'])))
+				if (($this->config['welshpaul_sitemap_images']) && (is_array($data['image'])))
 				{
 					foreach ($data['image'] as $xml_image_data)
 					{
