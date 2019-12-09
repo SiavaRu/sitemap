@@ -20,23 +20,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class listener implements EventSubscriberInterface
 {
-	/** @var \phpbb\config\config */
 	protected $config;
-
-	/** @var \phpbb\template\template */
 	protected $template;
-
-	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\config\config        $config             Config object
-	 * @param \phpbb\template\template    $template           Template object
-	 * @param \phpbb\controller\helper    $helper             Controller helper object
-	 * @access public
-	 */
 	public function __construct(config $config, template $template, helper $helper)
 	{
 		$this->config = $config;
