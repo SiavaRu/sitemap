@@ -10,7 +10,7 @@
 
 namespace welshpaul\sitemap\migrations\v32x;
 
-class m3_update_config extends \phpbb\db\migration\migration
+class m3_update_data extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
 	{
