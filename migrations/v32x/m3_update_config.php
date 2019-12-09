@@ -18,7 +18,7 @@ class m3_update_config extends \phpbb\db\migration\migration
 	}
 	static public function depends_on()
 	{
-		return array('\welshpaul\sitemap\migrations\v32x\m1_initial_config');
+		return array('\welshpaul\sitemap\migrations\v32x\m2_initial_module');
 	}
 	public function update_data()
 	{
