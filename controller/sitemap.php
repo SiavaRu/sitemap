@@ -20,12 +20,12 @@ use Symfony\Component\HttpFoundation\Response;
 class sitemap
 {
 	protected $auth;
+	protected $cache;
 	protected $config;
 	protected $db;
-	protected $cache;
-	protected $phpEx;
 	protected $helper;
 	protected $phpbb_dispatcher;
+	protected $phpEx;
 	protected $php_ext;
 	protected $phpbb_extension_manager;
 
