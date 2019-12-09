@@ -25,7 +25,6 @@ class sitemap
 	protected $db;
 	protected $helper;
 	protected $phpbb_dispatcher;
-	protected $phpEx;
 	protected $php_ext;
 	protected $phpbb_extension_manager;
 
