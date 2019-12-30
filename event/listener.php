@@ -22,13 +22,11 @@ class listener implements EventSubscriberInterface
 {
 	protected $config;
 	protected $template;
-	protected $helper;
 
-	public function __construct(config $config, template $template, helper $helper)
+	public function __construct(config $config, template $template)
 	{
 		$this->config = $config;
 		$this->template = $template;
-		$this->helper = $helper;
 	}
 
 	/**
@@ -67,8 +65,9 @@ class listener implements EventSubscriberInterface
 
 		if ($this->config['welshpaul_sitemap_link'])
 		{
+			$sitemap_url = generate_board_url()."/sitemap.xml";
 			$this->template->assign_var('S_WELSHPAUL_SITEMAP_LINK', $this->config['welshpaul_sitemap_link']);
-			$this->template->assign_var('WELSHPAUL_SITEMAP_URL', $this->helper->route('welshpaul_sitemap_sitemapindex', array(), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL));
+			$this->template->assign_var('WELSHPAUL_SITEMAP_URL',$sitemap_url);
 		}
 	}
 }
