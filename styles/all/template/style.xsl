@@ -13,7 +13,7 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title>Sitemap<xsl:if test="sm:sitemapindex">Index</xsl:if></title>
+                <title>Sitemap<xsl:if test="sm:sitemapindex"> Index</xsl:if></title>
                 <style>body{font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#545353}h1 span{font-size:14px}td,th{font-size:11px;padding-right:20px}table{border:none;border-collapse:collapse;width:100%;white-space:nowrap}#sitemap tr:nth-child(odd) td{background-color:#eee!important}#sitemap tbody tr:hover td,#sitemap tbody tr:hover td a{color:#000}.expl a,.expl a:visited{color:#da3114}#content{margin:0 auto;max-width:1000px}.expl{margin:18px 3px;line-height:1.2em}.expl a{font-weight:600}a{color:#000;text-decoration:none}a:visited{color:#777}a:hover{text-decoration:underline}th{text-align:left}thead th{border-bottom:1px solid #000}.image-caption span{margin-left:5px;background-color:#ccc}</style>
             </head>
             <body>
