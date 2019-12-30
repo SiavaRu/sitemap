@@ -18,7 +18,7 @@ class m4_update_data extends \phpbb\db\migration\migration
 	}
 	static public function depends_on()
 	{
-		return array('\welshpaul\sitemap\migrations\v32x\m3_initial_module');
+		return array('\welshpaul\sitemap\migrations\v32x\m3_update_data');
 	}
 	public function update_data()
 	{
