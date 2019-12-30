@@ -14,7 +14,7 @@ class m4_update_data extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
 	{
-		return isset($this->config['welshpaul_sitemap_versions']) && version_compare($this->config['welshpaul_sitemap_versions'], '1.0.1', '>=');
+		return isset($this->config['welshpaul_sitemap_versions']) && version_compare($this->config['welshpaul_sitemap_versions'], '1.0.2', '>=');
 	}
 	static public function depends_on()
 	{
