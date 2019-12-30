@@ -12,7 +12,6 @@ namespace welshpaul\sitemap\event;
 
 use phpbb\config\config;
 use phpbb\template\template;
-use phpbb\controller\helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
