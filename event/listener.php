@@ -10,12 +10,6 @@
 
 namespace welshpaul\sitemap\event;
 
-use phpbb\config\config;
-use phpbb\template\template;
-use phpbb\user;
-use phpbb\request\request;
-use phpbb\controller\helper;
-
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -23,13 +17,32 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class listener implements EventSubscriberInterface
 {
+	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\template\template */
 	protected $template;
+
+	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var \phpbb\request\request */
 	protected $request;
+
+	/** @var \phpbb\controller\helper */
 	protected $helper;
 
-	public function __construct(config $config, template $template, user $user, request $request, helper $helper)
+	/**
+	 * Constructor
+	 *
+	 * @param \phpbb\config\config        $config          Config object
+	 * @param \phpbb\template\template    $template        Template object
+	 * @param \phpbb\user                 $user            User object
+	 * @param \phpbb\request\request      $request         Request object
+	 * @param \phpbb\controller\helper    $helper          Controller helper object
+	 * @access public
+	 */
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\request\request $request, \phpbb\controller\helper $helper)
 	{
 		$this->config = $config;
 		$this->template = $template;
