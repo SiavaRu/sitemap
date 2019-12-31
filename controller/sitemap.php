@@ -9,26 +9,46 @@
 
 namespace welshpaul\sitemap\controller;
 
-use phpbb\auth\auth;
-use phpbb\cache\service;
-use phpbb\config\config;
-use phpbb\db\driver\driver_interface;
-use phpbb\controller\helper;
-use phpbb\event\dispatcher;
 use Symfony\Component\HttpFoundation\Response;
 
 class sitemap
 {
+	/** @var \phpbb\auth\auth */
 	protected $auth;
+
+	/** @var \phpbb\cache\service */
 	protected $cache;
+
+	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\db\driver\driver */
 	protected $db;
+
+	/** @var \phpbb\controller\helper */
 	protected $helper;
+
+	/** @var \phpbb\event\dispatcher_interface */
 	protected $phpbb_dispatcher;
+
+	/** @var string php_ext */
 	protected $php_ext;
+
+	/** @var string */
 	protected $phpbb_extension_manager;
 
-	public function __construct(auth $auth, service $cache, config $config, driver_interface $db, helper $helper, dispatcher $phpbb_dispatcher, $php_ext, $phpbb_extension_manager)
+	/**
+	* Constructor
+	*
+	* @param \phpbb\auth\auth                     $auth                           Authentication object
+	* @param \phpbb\cache\service                 $cache                          The cache driver
+	* @param \phpbb\config\config                 $config                         Config object
+	* @param \phpbb\db\driver\driver_interface    $db                             Database object
+	* @param \phpbb\controller\helper             $helper                         Controller helper object
+	* @param string                               $php_ext                        phpEx
+	* @param \phpbb_extension_manager             $phpbb_extension_manager        phpbb_extension_manager
+	*/
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\event\dispatcher $phpbb_dispatcher, $php_ext, $phpbb_extension_manager)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
