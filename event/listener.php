@@ -26,9 +26,6 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \phpbb\request\request */
-	protected $request;
-
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
@@ -38,16 +35,14 @@ class listener implements EventSubscriberInterface
 	* @param \phpbb\config\config        $config          Config object
 	* @param \phpbb\template\template    $template        Template object
 	* @param \phpbb\user                 $user            User object
-	* @param \phpbb\request\request      $request         Request object
 	* @param \phpbb\controller\helper    $helper          Controller helper object
 	* @access public
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\request\request $request, \phpbb\controller\helper $helper)
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\controller\helper $helper)
 	{
 		$this->config = $config;
 		$this->template = $template;
 		$this->user = $user;
-		$this->request = $request;
 		$this->helper = $helper;
 	}
 
