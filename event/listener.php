@@ -33,15 +33,15 @@ class listener implements EventSubscriberInterface
 	protected $helper;
 
 	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\config\config        $config          Config object
-	 * @param \phpbb\template\template    $template        Template object
-	 * @param \phpbb\user                 $user            User object
-	 * @param \phpbb\request\request      $request         Request object
-	 * @param \phpbb\controller\helper    $helper          Controller helper object
-	 * @access public
-	 */
+	* Constructor
+	*
+	* @param \phpbb\config\config        $config          Config object
+	* @param \phpbb\template\template    $template        Template object
+	* @param \phpbb\user                 $user            User object
+	* @param \phpbb\request\request      $request         Request object
+	* @param \phpbb\controller\helper    $helper          Controller helper object
+	* @access public
+	*/
 	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\request\request $request, \phpbb\controller\helper $helper)
 	{
 		$this->config = $config;
