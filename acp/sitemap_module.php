@@ -166,7 +166,7 @@ class sitemap_module
 			'WELSHPAUL_SITEMAP_FORUM_THRESHOLD'		=> $config['welshpaul_sitemap_forum_threshold'],
 			'WELSHPAUL_SITEMAP_LINK'				=> $config['welshpaul_sitemap_link'],
 			'WELSHPAUL_SITEMAP_IMAGES'				=> $config['welshpaul_sitemap_images'],
-			'WELSHPAUL_SITEMAP_LOCATION'			=> generate_board_url() . '/sitemap.xml',
+			'WELSHPAUL_SITEMAP_LOCATION'			=> $this->container->get('controller.helper')->route('welshpaul_sitemap_sitemapindex', array(), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
 			'S_ERROR'								=> (sizeof($errors)) ? true : false,
 			'ERROR_MSG'								=> implode('<br />', $errors),
 			'U_ACTION'								=> $this->u_action,
