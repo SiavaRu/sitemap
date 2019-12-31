@@ -26,7 +26,7 @@ class listener implements EventSubscriberInterface
 	protected $user;
 	protected $request;
 
-	public function __construct(config $config, template $template, user $user, request $request,)
+	public function __construct(config $config, template $template, user $user, request $request)
 	{
 		$this->config = $config;
 		$this->template = $template;
