@@ -13,6 +13,7 @@ namespace welshpaul\sitemap\event;
 use phpbb\config\config;
 use phpbb\template\template;
 use phpbb\user;
+use phpbb\request\request;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -23,12 +24,14 @@ class listener implements EventSubscriberInterface
 	protected $config;
 	protected $template;
 	protected $user;
+	protected $request;
 
-	public function __construct(config $config, template $template, user $user)
+	public function __construct(config $config, template $template, user $user, request $request,)
 	{
 		$this->config = $config;
 		$this->template = $template;
 		$this->user = $user;
+		$this->request = $request;
 	}
 
 	/**
