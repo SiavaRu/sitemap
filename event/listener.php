@@ -64,7 +64,7 @@ class listener implements EventSubscriberInterface
 
 		if ($this->config['welshpaul_sitemap_link'])
 		{
-			$sitemap_url = generate_board_url()."/sitemap.xml";
+			$sitemap_url = generate_board_url() . '/sitemap.xml';
 			$this->template->assign_var('S_WELSHPAUL_SITEMAP_LINK', $this->config['welshpaul_sitemap_link']);
 			$this->template->assign_var('WELSHPAUL_SITEMAP_URL',$sitemap_url);
 		}
