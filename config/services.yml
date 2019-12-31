@@ -6,6 +6,7 @@ services:
             - '@cache'
             - '@config'
             - '@dbal.conn'
+            - '@user'
             - '@controller.helper'
             - '@dispatcher'
             - '%core.php_ext%'
