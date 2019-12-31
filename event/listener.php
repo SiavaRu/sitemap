@@ -12,7 +12,7 @@ namespace welshpaul\sitemap\event;
 
 use phpbb\config\config;
 use phpbb\template\template;
-use phpbb\user\user;
+use phpbb\user;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -28,7 +28,7 @@ class listener implements EventSubscriberInterface
 	{
 		$this->config = $config;
 		$this->template = $template;
-		$this->template = $user;
+		$this->user = $user;
 	}
 
 	/**
