@@ -25,6 +25,9 @@ class sitemap
 	/** @var \phpbb\db\driver\driver */
 	protected $db;
 
+	/** @var \phpbb\user */
+	protected $user;
+
 	/** @var \phpbb\controller\helper */
 	protected $helper;
 
@@ -44,21 +47,25 @@ class sitemap
 	* @param \phpbb\cache\service                 $cache                          The cache driver
 	* @param \phpbb\config\config                 $config                         Config object
 	* @param \phpbb\db\driver\driver_interface    $db                             Database object
+	* @param \phpbb\user                          $user                           User object
 	* @param \phpbb\controller\helper             $helper                         Controller helper object
 	* @param string                               $php_ext                        phpEx
 	* @param \phpbb_extension_manager             $phpbb_extension_manager        phpbb_extension_manager
 	*/
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\controller\helper $helper, \phpbb\event\dispatcher $phpbb_dispatcher, $php_ext, $phpbb_extension_manager)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\cache\service $cache, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\controller\helper $helper, \phpbb\event\dispatcher $phpbb_dispatcher, $php_ext, $phpbb_extension_manager)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
 		$this->config = $config;
 		$this->db = $db;
+		$this->user = $user;
 		$this->helper = $helper;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->php_ext = $php_ext;
 		$this->phpbb_extension_manager = $phpbb_extension_manager;
+
 		$this->board_url = generate_board_url();
+		$this->user->add_lang_ext('welshpaul/sitemap', 'common');
 	}
 
 	/**
