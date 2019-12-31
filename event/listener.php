@@ -12,6 +12,7 @@ namespace welshpaul\sitemap\event;
 
 use phpbb\config\config;
 use phpbb\template\template;
+use phpbb\user\user
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -21,11 +22,13 @@ class listener implements EventSubscriberInterface
 {
 	protected $config;
 	protected $template;
+	protected $user;
 
-	public function __construct(config $config, template $template)
+	public function __construct(config $config, template $template, user $user)
 	{
 		$this->config = $config;
 		$this->template = $template;
+		$this->template = $user;
 	}
 
 	/**
@@ -38,19 +41,8 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.user_setup'	=> 'load_language_on_setup',
 			'core.page_header'	=> 'welshpaul_sitemap_set_tpl_data',
 		);
-	}
-
-	public function load_language_on_setup($event)
-	{
-		$lang_set_ext = $event['lang_set_ext'];
-		$lang_set_ext[] = array(
-			'ext_name' => 'welshpaul/sitemap',
-			'lang_set' => 'common',
-		);
-		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	/**
@@ -64,9 +56,10 @@ class listener implements EventSubscriberInterface
 
 		if ($this->config['welshpaul_sitemap_link'])
 		{
+			$this->user->add_lang_ext('welshpaul/sitemap', 'common');
 			$sitemap_url = generate_board_url() . '/sitemap.xml';
 			$this->template->assign_var('S_WELSHPAUL_SITEMAP_LINK', $this->config['welshpaul_sitemap_link']);
-			$this->template->assign_var('WELSHPAUL_SITEMAP_URL',$sitemap_url);
+			$this->template->assign_var('WELSHPAUL_SITEMAP_URL', $sitemap_url);
 		}
 	}
 }
