@@ -1,12 +1,12 @@
 welshpaul_sitemap_sitemapindex:
-    path: /sitemap.xml
+    path: /sitemap/sitemap.xml
     defaults: { _controller: welshpaul.sitemap.sitemap:index }
 welshpaul_sitemap_current:
-    path: /current.xml
+    path: /sitemap/current.xml
     defaults: { _controller: welshpaul.sitemap.sitemap:current }
 welshpaul_sitemap_topics:
-    path: /topics-{id}.xml
+    path: /sitemap/topics-{id}.xml
     defaults: { _controller: welshpaul.sitemap.sitemap:topics }
 welshpaul_sitemap_forums:
-    path: /forums-{id}.xml
+    path: /sitemap/forums-{id}.xml
     defaults: { _controller: welshpaul.sitemap.sitemap:forums }
