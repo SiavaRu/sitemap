@@ -26,7 +26,7 @@ class m1_initial_config extends \phpbb\db\migration\migration
 			['config.add', ['welshpaul_sitemap_forum_exclude', 'a:0:{}']],
 			['config.add', ['welshpaul_sitemap_forum_threshold', 0]],
 			['config.add', ['welshpaul_sitemap_link', 1]],
-			['config.add', ['lotusjeff_sitemap_additional', 0]],
+			['config.add', ['welshpaul_sitemap_additional', 0]],
 			['config.add', ['welshpaul_sitemap_versions', '1.0.0']],
 			['module.add', [
 				'acp',
