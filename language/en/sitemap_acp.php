@@ -2,8 +2,7 @@
 /**
 *
 * SEO Sitemap
-* @copyright (c) 2016 Jeff Cocking
-* @copyright (c) 2019 Paul Norman (WelshPaul)
+* @copyright (c) 2020 Paul Norman (WelshPaul)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -18,10 +17,10 @@ if (!defined('IN_PHPBB'))
 
 if (empty($lang) || !is_array($lang))
 {
-	$lang = array();
+	$lang = [];
 }
 
-$lang = array_merge($lang, array(
+$lang = array_merge($lang, [
 	'WELSHPAUL_SITEMAP_TITLE'			=> 'SEO Sitemap',
 	'WELSHPAUL_SITEMAP_EXPLAIN'			=> 'This extension creates the necassery sitemaps required by various search engines. SEO sitemap balances the need for performace with data by creating multiple sitemaps. These Sitemaps are:<br />'
 													.'<ul><li>sitemap.xml - Sitemap index file. Lists all sitemaps. Never cached, dynamically created.</li>'
@@ -50,4 +49,4 @@ $lang = array_merge($lang, array(
 	'WELSHPAUL_SITEMAP_INVALID_PRIORITY_VALUE'		=> 'Priority Value must be between 0.0 and 1.0.',
 	'WELSHPAUL_SITEMAP_INVALID_THRESHOLD_VALUE'		=> 'Threshold Value must be a number.',
 	'WELSHPAUL_SITEMAP_SETTINGS_SAVED'				=> 'Settings Saved',
-));
+]);
