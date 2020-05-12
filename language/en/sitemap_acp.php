@@ -33,7 +33,7 @@ $lang = array_merge($lang, [
 	'WELSHPAUL_SITEMAP_IMAGES_EXPLAIN'			=> 'Sitemap will include links for image attachements',
 	'WELSHPAUL_SITEMAP_ADDITIONALS'				=> 'Extend this Extension',
 	'WELSHPAUL_SITEMAP_ADDITIONAL'				=> 'Additional Sitemap',
-	'WELSHPAUL_SITEMAP_ADDITIONAL_EXPLAIN'		=> 'This sitemap should only be turned on if you have another extension sending data via this extension.',
+	'WELSHPAUL_SITEMAP_ADDITIONAL_EXPLAIN'		=> 'Turn on if you have another extension sending data via this extension.',
 
 	'WELSHPAUL_SITEMAP_PRIORITY'					=> 'Priority Settings',
 	'WELSHPAUL_SITEMAP_STICKY_PRIORITY'				=> 'Sticky Topic Priority',
