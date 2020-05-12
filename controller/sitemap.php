@@ -2,8 +2,7 @@
 /**
 *
 * SEO Sitemap
-* @copyright (c) 2016 Jeff Cocking
-* @copyright (c) 2019 Paul Norman (WelshPaul)
+* @copyright (c) 2020 Paul Norman (WelshPaul)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 */
 
@@ -80,10 +79,10 @@ class sitemap
 		/**
 		 * Set sitemap for current topics < 30 days last modified
 		 */
-		$url_data[] = array(
-			'url'		=> $this->helper->route('welshpaul_sitemap_current', array(), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
+		$url_data[] = [
+			'url'		=> $this->helper->route('welshpaul_sitemap_current', [], true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
 			'time'		=> time(),
-		);
+		];
 
 		/**
 		 * Get forum data
@@ -101,14 +100,14 @@ class sitemap
 		{
 			if (($this->auth->acl_get('f_list', $row['forum_id'])) && (!in_array($row['forum_id'],unserialize($this->config['welshpaul_sitemap_forum_exclude']))) && ($row['forum_topics_approved'] > $this->config['welshpaul_sitemap_forum_threshold']))
 			{
-				$url_data[] = array(
-					'url'		=> $this->helper->route('welshpaul_sitemap_forums', array('id' => $row['forum_id']), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
+				$url_data[] = [
+					'url'		=> $this->helper->route('welshpaul_sitemap_forums', ['id' => $row['forum_id']], true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
 					'time'		=> $row['forum_last_post_time'],
-				);
-				$url_data[] = array(
-					'url'		=> $this->helper->route('welshpaul_sitemap_topics', array('id' => $row['forum_id']), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
+				];
+				$url_data[] = [
+					'url'		=> $this->helper->route('welshpaul_sitemap_topics', ['id' => $row['forum_id']], true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
 					'time'		=> $row['forum_last_post_time'],
-				);
+				];
 			}
 		}
 		$this->db->sql_freeresult($result);
@@ -214,20 +213,20 @@ class sitemap
 						{
 							if (in_array($image_row['post_msg_id'], $post_page_data))
 							{
-								$topic_image_data[$topic_row['topic_id']][$page_count][] = array(
+								$topic_image_data[$topic_row['topic_id']][$page_count][] = [
 									'attach_url'	=> $this->board_url .  '/download/file.' . $this->php_ext . '?id=' . $image_row['attach_id'] . '&amp;mode=view',
 									'caption'	=> $image_row['attach_comment'],
-								);
+								];
 							}
 							$page_count++;
 						}
 					}
 					else
 					{
-						$topic_image_data[$topic_row['topic_id']][$pages][] = array(
+						$topic_image_data[$topic_row['topic_id']][$pages][] = [
 							'attach_url'	=> $this->board_url .  '/download/file.' . $this->php_ext . '?id=' . $image_row['attach_id'] . '&amp;mode=view',
 							'caption'	=> $image_row['attach_comment'],
-						);
+						];
 					}
 				}
 
@@ -235,7 +234,7 @@ class sitemap
 			}
 			else
 			{
-				$topic_image_data = array();
+				$topic_image_data = [];
 			}
 
 			/**
@@ -265,13 +264,13 @@ class sitemap
 			 */
 			if ($topic_row['topic_status'] <> ITEM_MOVED)
 			{
-				$url_data[] = array(
+				$url_data[] = [
 					'url'	=> $this->board_url .  '/viewtopic.' . $this->php_ext . '?f=' . $topic_row['forum_id'] . '&amp;t=' . $topic_row['topic_id'],
 					'time'	=> $topic_row['topic_last_post_time'],
 					'prio'	=> number_format($topic_priority,1),
 					'freq'	=> $topic_freq,
 					'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data) : '',
-				);
+				];
 
 				/**
 				 * Write topic data for multi-page topics
@@ -282,13 +281,13 @@ class sitemap
 					for ($i = 2; $i < $pages+1; $i++)
 					{
 						$start = $start + $this->config['posts_per_page'];
-						$url_data[] = array(
+						$url_data[] = [
 							'url'	=> $this->board_url . '/viewtopic.' . $this->php_ext . '?f=' . $topic_row['forum_id'] . '&amp;t=' . $topic_row['topic_id'] . '&amp;start=' . $start,
 							'time'	=> $topic_row['topic_last_post_time'],
 							'prio'	=> number_format(($topic_priority*0.95),1),
 							'freq'	=> $topic_freq,
 							'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data, $pages, $i) : '',
-						);
+						];
 					}
 				}
 			}
@@ -367,13 +366,13 @@ class sitemap
 			/**
 			 * Write forum url data
 			 */
-			$url_data[] = array(
+			$url_data[] = [
 				'url'	=> $this->board_url . '/viewforum.' . $this->php_ext . '?f=' . $id,
 				'time'	=> $row['forum_last_post_time'],
 				'prio'	=> number_format($forum_prio,1),
 				'freq'	=> $forum_freq,
 				'image'	=> '',
-			);
+			];
 			/**
 			 * Write forum url data for multi-page forums
 			 */
@@ -383,13 +382,13 @@ class sitemap
 				for ($i = 1; $i < $pages; $i++)
 				{
 					$start = $start + $this->config['topics_per_page'];
-					$url_data[] = array(
+					$url_data[] = [
 						'url'	=> $this->board_url . '/viewforum.' . $this->php_ext . '?f=' . $id . '&amp;start=' . $start,
 						'time'	=> $row['forum_last_post_time'],
 						'prio'	=> number_format(($forum_prio*0.95),1),
 						'freq'	=> $forum_freq,
 						'image'	=> '',
-					);
+					];
 				}
 			}
 			$this->db->sql_freeresult($result);
@@ -509,20 +508,20 @@ class sitemap
 							{
 								if (in_array($image_row['post_msg_id'], $post_page_data))
 								{
-									$topic_image_data[$topic_row['topic_id']][$page_count][] = array(
+									$topic_image_data[$topic_row['topic_id']][$page_count][] = [
 										'attach_url'	=> $this->board_url .  '/download/file.' . $this->php_ext . '?id=' . $image_row['attach_id'] . '&amp;mode=view',
 										'caption'	=> $image_row['attach_comment'],
-									);
+									];
 								}
 								$page_count++;
 							}
 						}
 						else
 						{
-							$topic_image_data[$topic_row['topic_id']][$pages][] = array(
+							$topic_image_data[$topic_row['topic_id']][$pages][] = [
 								'attach_url'	=> $this->board_url .  '/download/file.' . $this->php_ext . '?id=' . $image_row['attach_id'] . '&amp;mode=view',
 								'caption'	=> $image_row['attach_comment'],
-							);
+							];
 						}
 					}
 
@@ -530,7 +529,7 @@ class sitemap
 				}
 				else
 				{
-					$topic_image_data = array();
+					$topic_image_data = [];
 				}
 
 				/**
@@ -560,13 +559,13 @@ class sitemap
 				 */
 				if ($topic_row['topic_status'] <> ITEM_MOVED)
 				{
-					$url_data[] = array(
+					$url_data[] = [
 						'url'	=> $this->board_url .  '/viewtopic.' . $this->php_ext . '?f=' . $id . '&amp;t=' . $topic_row['topic_id'],
 						'time'	=> $topic_row['topic_last_post_time'],
 						'prio'	=> number_format($topic_priority,1),
 						'freq'	=> $topic_freq,
 						'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data) : '',
-					);
+					];
 
 					/**
 					 * Write topic data for multi-page topics
@@ -577,13 +576,13 @@ class sitemap
 						for ($i = 2; $i < $pages+1; $i++)
 						{
 							$start = $start + $this->config['posts_per_page'];
-							$url_data[] = array(
+							$url_data[] = [
 								'url'	=> $this->board_url . '/viewtopic.' . $this->php_ext . '?f=' . $id . '&amp;t=' . $topic_row['topic_id'] . '&amp;start=' . $start,
 								'time'	=> $topic_row['topic_last_post_time'],
 								'prio'	=> number_format(($topic_priority*0.95),1),
 								'freq'	=> $topic_freq,
 								'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data, $pages, $i) : '',
-							);
+							];
 						}
 					}
 				}
@@ -626,10 +625,10 @@ class sitemap
 		 * @var	array		url_data		URL informations
 		 * @since 0.1.4
 		 */
-		$vars = array(
+		$vars = [
 			'type',
 			'url_data',
-		);
+		];
 		extract($this->phpbb_dispatcher->trigger_event('welshpaul.sitemap_modify_before_output', compact($vars)));
 
 		$style_xsl = $this->board_url . '/'. $this->phpbb_extension_manager->get_extension_path('welshpaul/sitemap', false) . 'styles/all/template/style.xsl';
@@ -682,9 +681,9 @@ class sitemap
 		/**
 		 * Create headers and send the file
 		 */
-		$headers = array(
+		$headers = [
 			'Content-Type'		=> 'application/xml; charset=UTF-8',
-		);
+		];
 		return new Response($xml, '200', $headers);
 	}
 
