@@ -677,6 +677,14 @@ class sitemap
 		}
 
 		/**
+		 * If additional sitemap disabled, redirect to 404.
+		 */
+		if (!$this->config['welshpaul_sitemap_additional'])
+		{
+			throw new \phpbb\exception\http_exception(404, 'PAGE_NOT_FOUND');
+		}
+
+		/**
 		 * If there are no available data, we need to send an error message of no data configured.
 		 */
 		if (empty($url_data))
