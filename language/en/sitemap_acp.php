@@ -28,9 +28,12 @@ $lang = array_merge($lang, [
 													.'<li>topics-{id}.xml - Lists all topics by forum id modified greater than 30 days. Cached for 24 hours.</li>'
 													.'<li>forums-{id}.xml - Lists all summary pages of a forum by forum id. Cached for 24 hours.</li></ul>',
 
-	'WELSHPAUL_SITEMAP_LOCATION'		=> 'Sitemap Index',
-	'WELSHPAUL_SITEMAP_IMAGES'			=> 'Image Attachments',
-	'WELSHPAUL_SITEMAP_IMAGES_EXPLAIN'	=> 'Sitemap will include links for image attachements',
+	'WELSHPAUL_SITEMAP_LOCATION'				=> 'Sitemap Index',
+	'WELSHPAUL_SITEMAP_IMAGES'					=> 'Image Attachments',
+	'WELSHPAUL_SITEMAP_IMAGES_EXPLAIN'			=> 'Sitemap will include links for image attachements',
+	'WELSHPAUL_SITEMAP_ADDITIONALS'				=> 'Extend this Extension',
+	'WELSHPAUL_SITEMAP_ADDITIONAL'				=> 'Additional Sitemap',
+	'WELSHPAUL_SITEMAP_ADDITIONAL_EXPLAIN'		=> 'This sitemap should only be turned on if you have another extension sending data via this extension.',
 
 	'WELSHPAUL_SITEMAP_PRIORITY'					=> 'Priority Settings',
 	'WELSHPAUL_SITEMAP_STICKY_PRIORITY'				=> 'Sticky Topic Priority',
