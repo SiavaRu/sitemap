@@ -70,6 +70,18 @@
 			</dd>
 		</dl>
 	</fieldset>
+	<fieldset>
+		<legend>{{ lang('WELSHPAUL_SITEMAP_ADDITIONALS') }}</legend>
+		<dl>
+			<dt><label for="welshpaul_sitemap_additional">{{ lang('WELSHPAUL_SITEMAP_ADDITIONAL') ~ lang('COLON') }}</label><br /><span>{{ lang('WELSHPAUL_SITEMAP_ADDITIONAL_EXPLAIN') }}</span></dt>
+			<dd>
+				<input type="radio" id="welshpaul_sitemap_additional1" name="welshpaul_sitemap_additional" value="1" {% if WELSHPAUL_SITEMAP_ADDITIONAL %}checked="checked"{% endif %}/>
+				<label for="welshpaul_sitemap_additional1">{{ lang('YES') }}</label>
+				<input type="radio" id="welshpaul_sitemap_additional0" name="welshpaul_sitemap_additional" value="0" {% if not WELSHPAUL_SITEMAP_ADDITIONAL %}checked="checked"{% endif %}/>
+				<label for="welshpaul_sitemap_additional0">{{ lang('NO') }}</label>
+			</dd>
+		</dl>
+	</fieldset>
 	<p class="submit-buttons">
 		<input class="adm-button" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
 		<input class="adm-button" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
