@@ -2,8 +2,7 @@
 /**
 *
 * SEO Sitemap
-* @copyright (c) 2016 Jeff Cocking
-* @copyright (c) 2019 Paul Norman (WelshPaul)
+* @copyright (c) 2020 Paul Norman (WelshPaul)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -14,12 +13,12 @@ class sitemap_info
 {
 	public function module()
 	{
-		return array(
+		return [
 			'filename'	=> '\welshpaul\sitemap\acp\sitemap_module',
 			'title'		=> 'ACP_SITEMAP_TITLE',
-			'modes'		=> array(
-				'settings'	=> array('title' => 'ACP_SITEMAP_SETTINGS', 'auth' => 'ext_welshpaul/sitemap && acl_a_board', 'cat' => array('ACP_SITEMAP_TITLE')),
-			),
-		);
+			'modes'		=> [
+				'settings'	=> ['title' => 'ACP_SITEMAP_SETTINGS', 'auth' => 'ext_welshpaul/sitemap && acl_a_board', 'cat' => ['ACP_SITEMAP_TITLE']],
+			],
+		];
 	}
 }
