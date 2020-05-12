@@ -35,7 +35,7 @@ class m2_initial_module extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return [
-			['module.add', []
+			['module.add', [
 				'acp', 'ACP_SITEMAP_TITLE', [
 					'module_basename'	=> '\welshpaul\sitemap\acp\sitemap_module',
 					'auth'				=> 'ext_welshpaul\sitemap && acl_a_board',
