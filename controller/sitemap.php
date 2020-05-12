@@ -112,6 +112,18 @@ class sitemap
 		}
 		$this->db->sql_freeresult($result);
 
+
+		/**
+		 * Set sitemap for additional pages if configured
+		 */
+		if ($this->config['welshpaul_sitemap_additional'])
+		{
+			$url_data[] = [
+				'url'		=> $this->helper->route('welshpaul_sitemap_additional', ['id' => $row['forum_id']], true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
+				'time'		=> time(),
+			];
+		}
+
 		/**
 		 * If there are no available data, we need to send an error message of no data configured.
 		 */
@@ -604,6 +616,74 @@ class sitemap
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Creates Sitemap Index of all allowed forums
+	 *
+	 * @return object
+	 * @access public
+	 */
+	public function additional()
+	{
+
+		/**
+		 * Build extension hook
+		 *
+		 * @event welshpaul.sitemap_additional_data
+		 * @param array 	additinal_url_data The array below is a sample data of the $url_data. Please mimic the format and delete the sample data.
+		 * @return Response
+		 */
+		$add_data = [ 
+			0 => [
+				'loc' => 'https://yourdomian.tld/board_location/viewtopic.php?f=39&amp;t=3245',  //Full domain name including the https values
+				'lastmod' => '1456454541', //Unix timestamp of when page last updated.
+				'image' => [
+					0 => [
+						'attach_url' => 'https://yourdomain.tld/board_location/download/file.php?id=19&amp;mode=view', //Full domain name including the https values
+						'caption' => 'caption text',  //Caption text associated with image
+					],
+					1 => [
+						'attach_url' => 'https://yourdomain.tld/board_location/download/file.php?id=19&amp;mode=view', //Full domain name including the https values
+						'caption' => 'caption text',//Caption text associated with image
+					],
+				],
+			],
+
+			1 => [
+				'loc' => 'http://yourdomian.tld/board_location/viewtopic.php?f=39&amp;t=3245', //Full domain name including the https values
+				'lastmod' => '1456454541', //Unix timestamp of when page last updated.
+				'image' => '', //If no image pass a '' in the image field.
+			],
+		];
+
+		$vars = [
+			'add_data',
+		];
+
+		extract($this->phpbb_dispatcher->trigger_event('welshpaul.sitemap_additional_data', compact($vars)));
+
+		foreach ($add_data as $add_page)
+		{
+			$prio = $this->get_prio($add_page['lastmod'],1);
+
+			$url_data[] = [
+				'url'	=> $add_page['loc'],
+				'time'	=> $add_page['lastmod'],
+				'prio'	=> number_format($this->get_prio($add_page['lastmod'],1),1),
+				'freq'	=> $this->get_freq($add_page['lastmod']),
+				'image'	=> ($this->config['welshpaul_sitemap_images']) ? ((isset($add_page['image'])) ? $add_page['image'] : '') : '',
+				];
+		}
+
+		/**
+		 * If there are no available data, we need to send an error message of no data configured.
+		 */
+		if (empty($url_data))
+		{
+			trigger_error('WELSHPAUL_SITEMAP_NODATA');
+		}
+		return $this->output_sitemap($url_data, $type = 'urlset');
 	}
 
 	/**
