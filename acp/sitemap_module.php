@@ -132,6 +132,7 @@ class sitemap_module
 				$config->set('welshpaul_sitemap_global_priority', $welshpaul_sitemap_global_priority);
 				$config->set('welshpaul_sitemap_forum_threshold', $welshpaul_sitemap_forum_threshold);
 				$config->set('welshpaul_sitemap_link', $request->variable('welshpaul_sitemap_link', 1));
+				$config->set('welshpaul_sitemap_additional', $request->variable('welshpaul_sitemap_additional', 0));
 				$config->set('welshpaul_sitemap_images', $request->variable('welshpaul_sitemap_images', 1));
 				$config->set('welshpaul_sitemap_forum_exclude', serialize($request->variable('welshpaul_sitemap_forum_exclude', [0])));
 
@@ -164,6 +165,7 @@ class sitemap_module
 			'WELSHPAUL_SITEMAP_GLOBAL_PRIORITY'		=> $config['welshpaul_sitemap_global_priority'],
 			'WELSHPAUL_SITEMAP_FORUM_THRESHOLD'		=> $config['welshpaul_sitemap_forum_threshold'],
 			'WELSHPAUL_SITEMAP_LINK'				=> $config['welshpaul_sitemap_link'],
+			'WELSHPAUL_SITEMAP_ADDITIONAL'			=> $config['welshpaul_sitemap_additional'],
 			'WELSHPAUL_SITEMAP_IMAGES'				=> $config['welshpaul_sitemap_images'],
 			'WELSHPAUL_SITEMAP_LOCATION'			=> $this->container->get('controller.helper')->route('welshpaul_sitemap_sitemapindex', [], true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
 			'S_ERROR'								=> (sizeof($errors)) ? true : false,
