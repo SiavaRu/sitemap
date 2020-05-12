@@ -10,3 +10,6 @@ welshpaul_sitemap_topics:
 welshpaul_sitemap_forums:
     path: /sitemap/forums-{id}.xml
     defaults: { _controller: welshpaul.sitemap.sitemap:forums }
+welshpaul_sitemap_additional:
+    path: /sitemap/additional.xml
+    defaults: { _controller: welshpaul.sitemap.sitemap:additional }
