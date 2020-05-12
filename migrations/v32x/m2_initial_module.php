@@ -2,8 +2,7 @@
 /**
 *
 * SEO Sitemap
-* @copyright (c) 2016 Jeff Cocking
-* @copyright (c) 2019 Paul Norman (WelshPaul)
+* @copyright (c) 2020 Paul Norman (WelshPaul)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -24,7 +23,7 @@ class m2_initial_module extends \phpbb\db\migration\migration
 	 */
 	static public function depends_on()
 	{
-		return array('\welshpaul\sitemap\migrations\v32x\m1_initial_config');
+		return ['\welshpaul\sitemap\migrations\v32x\m1_initial_config'];
 	}
 
 	/**
@@ -35,14 +34,14 @@ class m2_initial_module extends \phpbb\db\migration\migration
 	 */
 	public function update_data()
 	{
-		return array(
-			array('module.add', array(
-				'acp', 'ACP_SITEMAP_TITLE', array(
+		return [
+			['module.add', []
+				'acp', 'ACP_SITEMAP_TITLE', [
 					'module_basename'	=> '\welshpaul\sitemap\acp\sitemap_module',
 					'auth'				=> 'ext_welshpaul\sitemap && acl_a_board',
-					'modes'				=> array('settings'),
-				),
-			)),
-		);
+					'modes'				=> ['settings'],
+				],
+			]],
+		];
 	}
 }
