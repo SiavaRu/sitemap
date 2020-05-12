@@ -2,8 +2,7 @@
 /**
 *
 * SEO Sitemap
-* @copyright (c) 2016 Jeff Cocking
-* @copyright (c) 2019 Paul Norman (WelshPaul)
+* @copyright (c) 2020 Paul Norman (WelshPaul)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -55,9 +54,9 @@ class listener implements EventSubscriberInterface
 	 */
 	static public function getSubscribedEvents()
 	{
-		return array(
+		return [
 			'core.page_header'	=> 'welshpaul_sitemap_set_tpl_data',
-		);
+		];
 	}
 
 	/**
@@ -73,7 +72,7 @@ class listener implements EventSubscriberInterface
 		{
 			$this->user->add_lang_ext('welshpaul/sitemap', 'common');
 			$this->template->assign_var('S_WELSHPAUL_SITEMAP_LINK', $this->config['welshpaul_sitemap_link']);
-			$this->template->assign_var('WELSHPAUL_SITEMAP_URL', $this->helper->route('welshpaul_sitemap_sitemapindex', array(), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL));
+			$this->template->assign_var('WELSHPAUL_SITEMAP_URL', $this->helper->route('welshpaul_sitemap_sitemapindex', [], true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL));
 		}
 	}
 }
