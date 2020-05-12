@@ -150,8 +150,7 @@ class sitemap_module
 		$forum_link = make_forum_select(false, false, true, true, true, false, true);
 		foreach ($forum_link as $link)
 		{
-			$template->assign_block_vars('welshpaul_sitemap_forum_exclude_options', 
-			[
+			$template->assign_block_vars('welshpaul_sitemap_forum_exclude_options', [
 				'VALUE'			=> $link['forum_id'],
 				'LABEL'			=> $link['padding'] .$link['forum_name'],
 				'S_SELECTED'	=> in_array($link['forum_id'], unserialize($config['welshpaul_sitemap_forum_exclude'])),
