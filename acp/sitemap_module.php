@@ -2,8 +2,7 @@
 /**
 *
 * SEO Sitemap
-* @copyright (c) 2016 Jeff Cocking
-* @copyright (c) 2019 Paul Norman (WelshPaul)
+* @copyright (c) 2020 Paul Norman (WelshPaul)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -83,7 +82,7 @@ class sitemap_module
 		$form_name = 'sitemap';
 		add_form_key($form_name);
 
-		$errors = array();
+		$errors = [];
 
 		if ($request->is_set_post('submit'))
 		{
@@ -93,7 +92,7 @@ class sitemap_module
 			}
 
 			$commit_to_db = true;
-			$msg = array();
+			$msg = [];
 
 			/**
 			 * Perform validation checks
@@ -134,7 +133,7 @@ class sitemap_module
 				$config->set('welshpaul_sitemap_forum_threshold', $welshpaul_sitemap_forum_threshold);
 				$config->set('welshpaul_sitemap_link', $request->variable('welshpaul_sitemap_link', 1));
 				$config->set('welshpaul_sitemap_images', $request->variable('welshpaul_sitemap_images', 1));
-				$config->set('welshpaul_sitemap_forum_exclude', serialize($request->variable('welshpaul_sitemap_forum_exclude', array(0))));
+				$config->set('welshpaul_sitemap_forum_exclude', serialize($request->variable('welshpaul_sitemap_forum_exclude', [0])));
 
 				if (empty($msg))
 				{
@@ -151,25 +150,26 @@ class sitemap_module
 		$forum_link = make_forum_select(false, false, true, true, true, false, true);
 		foreach ($forum_link as $link)
 		{
-			$template->assign_block_vars('welshpaul_sitemap_forum_exclude_options', array(
+			$template->assign_block_vars('welshpaul_sitemap_forum_exclude_options', 
+			[
 				'VALUE'			=> $link['forum_id'],
 				'LABEL'			=> $link['padding'] .$link['forum_name'],
 				'S_SELECTED'	=> in_array($link['forum_id'], unserialize($config['welshpaul_sitemap_forum_exclude'])),
 				'S_DISABLED' 	=> $link['disabled'],
-			));
+			]);
 		}
 
-		$template->assign_vars(array(
+		$template->assign_vars([
 			'WELSHPAUL_SITEMAP_ANNOUNCE_PRIORITY'	=> $config['welshpaul_sitemap_announce_priority'],
 			'WELSHPAUL_SITEMAP_STICKY_PRIORITY'		=> $config['welshpaul_sitemap_sticky_priority'],
 			'WELSHPAUL_SITEMAP_GLOBAL_PRIORITY'		=> $config['welshpaul_sitemap_global_priority'],
 			'WELSHPAUL_SITEMAP_FORUM_THRESHOLD'		=> $config['welshpaul_sitemap_forum_threshold'],
 			'WELSHPAUL_SITEMAP_LINK'				=> $config['welshpaul_sitemap_link'],
 			'WELSHPAUL_SITEMAP_IMAGES'				=> $config['welshpaul_sitemap_images'],
-			'WELSHPAUL_SITEMAP_LOCATION'			=> $this->container->get('controller.helper')->route('welshpaul_sitemap_sitemapindex', array(), true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
+			'WELSHPAUL_SITEMAP_LOCATION'			=> $this->container->get('controller.helper')->route('welshpaul_sitemap_sitemapindex', [], true, '', \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL),
 			'S_ERROR'								=> (sizeof($errors)) ? true : false,
 			'ERROR_MSG'								=> implode('<br />', $errors),
 			'U_ACTION'								=> $this->u_action,
-		));
+		]);
 	}
 }
