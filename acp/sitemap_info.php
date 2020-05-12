@@ -17,7 +17,11 @@ class sitemap_info
 			'filename'	=> '\welshpaul\sitemap\acp\sitemap_module',
 			'title'		=> 'ACP_SITEMAP_TITLE',
 			'modes'		=> [
-				'settings'	=> ['title' => 'ACP_SITEMAP_SETTINGS', 'auth' => 'ext_welshpaul/sitemap && acl_a_board', 'cat' => ['ACP_SITEMAP_TITLE']],
+				'settings'	=> [
+					'title' => 'ACP_SITEMAP_SETTINGS',
+					'auth' => 'ext_welshpaul/sitemap && acl_a_board',
+					'cat' => ['ACP_SITEMAP_TITLE'],
+				],
 			],
 		];
 	}
