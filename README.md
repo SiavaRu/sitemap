@@ -62,4 +62,4 @@ git pull
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
 
-© 2019 - Paul Norman (WelshPaul)
+© 2020 - Paul Norman (WelshPaul)
