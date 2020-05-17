@@ -1,9 +1,10 @@
-# SEO Sitemap Extension for phpBB 3.2
+# SEO Sitemap Extension for phpBB 3.2 / 3.3
 
 This extension adds xml sitemaps to your phpBB forum. This extension allows you to exclude forums by name or size. It additionally has the ability to add link in the footer for the sitemap.
 
 ## Requirements
 * phpBB 3.2.0 or higher
+* php 7.0 or higher
 
 ## Installation
 
