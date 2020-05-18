@@ -634,7 +634,7 @@ class sitemap
 		 * @param array 	additinal_url_data The array below is a sample data of the $url_data. Please mimic the format and delete the sample data.
 		 * @return Response
 		 */
-		$add_data = [ 
+		$add_data = [
 			0 => [
 				'loc' => 'https://yourdomian.tld/board_location/viewtopic.php?f=39&amp;t=3245',  //Full domain name including the https values
 				'lastmod' => '1456454541', //Unix timestamp of when page last updated.
