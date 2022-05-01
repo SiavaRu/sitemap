@@ -461,7 +461,7 @@ class sitemap
 			 */
 			$sql = 'SELECT topic_id, topic_last_post_time, topic_status, topic_posts_approved, topic_type, topic_attachment
 				FROM ' . TOPICS_TABLE . '
-				WHERE forum_id = ' . (int) $id . ' AND topic_posts_approved > 0 AND topic_last_post_time < ' . strtotime("-30 day") . ' ORDER BY topic_last_post_time DESC';
+				WHERE forum_id = ' . (int) $id . ' AND topic_posts_approved > 0 AND topic_status <> ' . ITEM_MOVED . ' AND topic_last_post_time < ' . strtotime("-30 day") . ' ORDER BY topic_last_post_time DESC';
 			$result = $this->db->sql_query($sql);
 
 			while ($topic_row = $this->db->sql_fetchrow($result))
@@ -569,33 +569,30 @@ class sitemap
 				/**
 				 * Write topic data for first page of topic
 				 */
-				if ($topic_row['topic_status'] <> ITEM_MOVED)
-				{
-					$url_data[] = [
-						'url'	=> $this->board_url .  '/viewtopic.' . $this->php_ext . '?f=' . $id . '&amp;t=' . $topic_row['topic_id'],
-						'time'	=> $topic_row['topic_last_post_time'],
-						'prio'	=> number_format($topic_priority,1),
-						'freq'	=> $topic_freq,
-						'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data) : '',
-					];
+				$url_data[] = [
+					'url'	=> $this->board_url .  '/viewtopic.' . $this->php_ext . '?f=' . $id . '&amp;t=' . $topic_row['topic_id'],
+					'time'	=> $topic_row['topic_last_post_time'],
+					'prio'	=> number_format($topic_priority,1),
+					'freq'	=> $topic_freq,
+					'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data) : '',
+				];
 
-					/**
-					 * Write topic data for multi-page topics
-					 */
-					if ( $pages > 1 )
+				/**
+				 * Write topic data for multi-page topics
+				 */
+				if ( $pages > 1 )
+				{
+					$start = 0;
+					for ($i = 2; $i < $pages+1; $i++)
 					{
-						$start = 0;
-						for ($i = 2; $i < $pages+1; $i++)
-						{
-							$start = $start + $this->config['posts_per_page'];
-							$url_data[] = [
-								'url'	=> $this->board_url . '/viewtopic.' . $this->php_ext . '?f=' . $id . '&amp;t=' . $topic_row['topic_id'] . '&amp;start=' . $start,
-								'time'	=> $topic_row['topic_last_post_time'],
-								'prio'	=> number_format(($topic_priority*0.95),1),
-								'freq'	=> $topic_freq,
-								'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data, $pages, $i) : '',
-							];
-						}
+						$start = $start + $this->config['posts_per_page'];
+						$url_data[] = [
+							'url'	=> $this->board_url . '/viewtopic.' . $this->php_ext . '?f=' . $id . '&amp;t=' . $topic_row['topic_id'] . '&amp;start=' . $start,
+							'time'	=> $topic_row['topic_last_post_time'],
+							'prio'	=> number_format(($topic_priority*0.95),1),
+							'freq'	=> $topic_freq,
+							'image'	=> ($this->config['welshpaul_sitemap_images']) ? $this->image_exist($topic_row['topic_id'], $topic_image_data, $pages, $i) : '',
+						];
 					}
 				}
 			}
